@@ -1,40 +1,475 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+	<title>USGS Web Apps Overview</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/custom.css">
+	<link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+
+	<link href="node_modules/@fortawesome/fontawesome-pro/css/fontawesome.css" rel="stylesheet">
+	<link href="node_modules/@fortawesome/fontawesome-pro/css/brands.css" rel="stylesheet">
+	<link href="node_modules/@fortawesome/fontawesome-pro/css/solid.css" rel="stylesheet">
+	<link href="node_modules/@fortawesome/fontawesome-pro/css/light.css" rel="stylesheet">
+	<link href="node_modules/@fortawesome/fontawesome-pro/css/regular.css" rel="stylesheet">
+	<link href="node_modules/@fortawesome/fontawesome-pro/css/duotone.css" rel="stylesheet">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-background-image="images/fevcap.PNG" data-background-size="contain" data-state="dimbg2">
+
+				<h2>Development of online interactive capabilities</h2>
+				<p>An overview of top level considerations in developing web applications for USGS science</p>
+				<p>
+					<small>IWAAS Trends and Drivers Project Virtual Team Meeting | January 13th, 2021<br>
+						Presented by
+						<a href="https://www.linkedin.com/in/blakedraper/">Blake Draper</a>, Software
+						Developer<br><a href="https://github.com/usgs-wim">USGS Web Informatics and Mapping (WIM),
+							Upper Midwest Water Science Center</a><br></small>
+					<img height="140" data-src="images/USGSlogo_tag_white_600w.gif" alt="USGS logo"
+						style="background:none;border:none;box-shadow:none;">
+					<br><img height="60" data-src="images/logo_hor_fullres.png" alt="WIM logo"
+						style="margin:10px;background:none;border:none;box-shadow:none;">
+				</p>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+			</section>
+			<!-- <section data-markdown>
+				<textarea data-template>
+					  ## Web Application Design Concerns
+					    Some high-level things to think about...
+					  - #### Data Sourcing and Storage 
+					  - #### API and Service Layers 
+					  - #### User Interface and Visualization 
+					
+					</textarea>
+			</section> -->
+			<section>
+				<h2>Web Application Design Concerns</h2>
+				<div class="bottom-margin-1em"><span class="bottom-margin-1em">Some high-level themes to think
+						about...</span></div>
+
+				<div>
+					<ul class="r-fit-text">
+						<li class="no-bullet bottom-margin-1em">
+							<span class="fragment large-list-text text-accent-color"><i
+									class="fas fa-database right-margin-1em"></i>
+								Data
+								Sourcing and Storage</span>
+						</li>
+						<li class="no-bullet bottom-margin-1em">
+							<span class="fragment large-list-text text-accent-color"><i
+									class="fas fa-cogs right-margin-1em"></i> API and
+								Service Layers</span>
+						</li>
+						<li class="no-bullet bottom-margin-1em">
+							<span class="fragment large-list-text text-accent-color"><i
+									class="fas fa-user-chart right-margin-1em"></i>
+								User
+								Interface and Visualization</span>
+						</li>
+					</ul>
+				</div>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+			</section>
+
+
+			<section>
+				<h2><i class="fas fa-database"></i> Data Sourcing and Storage</h2>
+				<ul>
+					<li>Dynamic (real-time) will be a guiding principle for IWAAs.</li>
+					<li>Real-time (or near real-time) requires some combination of automated processes, data
+						harmonization and process-output database. </li>
+				</ul>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2><i class="fas fa-database"></i> Data Sourcing and Storage</h2>
+				<div>Process development and data harmonization should be designed with the goal in mind: a performant
+					database and API.
+				</div>
+				<div>Standardizing the language, processes, and outputs will be key.</div>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2><i class="fas fa-database"></i> Data Sourcing and Storage</h2>
+				<div>Bad performance in a web application will undermine the message.
+				</div>
+				<div>API users have more patience. That's where the tougher requests will be satisfied.</div>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2><i class="fas fa-cogs"></i> API and Service Layers</h2>
+				<div>An API has two major roles:</div>
+				<ul class="bottom-margin-2em">
+					<li>Serve the application.</li>
+					<li>Serve the power users and 3rd-party applications.</li>
+				</ul><br>
+				<br>
+				<div>Uniting these roles as much as possible will bring efficiences.</div>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+
+			</section>
+
+			<section>
+				<h2><i class="fas fa-cogs"></i> API and Service Layers</h2>
+				<h3>Map services</h3>
+				<div>Map services are more specialized to map visualizations</div><br>
+				<div>You don't need a map service to have a map. May or may not be the right approach for the
+					visualization.</div>
+				<aside class="notes">
+					<ul>
+						<li> </li>
+						<li></li>
+						<li></li>
+						<ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2><i class="fas fa-user-chart"></i>
+					User
+					Interface and Visualization</span></h2>
+				<div class="large-list-text text-accent-color">User interface should be intuitive and friendly</div>
+				<div class="text-larger">Client-side rendering vs. Server-side rendering</div>
+				<ul>
+					<li>Map services, images services, tile services allow for a server-side implementation </li>
+					<li>Much can be rendered on the client from simply formatted data served from the API</li>
+				</ul>
+				<aside class="notes">
+					<ul>
+						<li>Performance considerations in either direction. </li>
+
+						<ul>
+				</aside>
+			</section>
+
+			<section>
+				<h2><i class="fal fa-browser"></i>
+					Web Applications in the USGS</span></h2>
+				<h3>Purposes</h3>
+				<ul>
+					<li>Data Collection</li>
+					<li>Data Dissemination</li>
+					<li>Decision Support</li>
+					<li>Information/Messaging</li>
+				</ul>
+
+				<div class="text-accent-color text-larger fragment bottom-margin-1em">Usually in some combination!</div>
+
+				<h3 class=" fragment">Now on to some examples...</h3>
+
+			</section>
+			<!-- 
+			<section>
+				<h2><i class="fal fa-browser"></i>
+					Web Applications in the USGS</span></h2>
+				<h3>Audiences</h3>
+				<ul>
+					<li>General public</li>
+					<li>Stakeholders and domain knowledge holders</li>
+				</ul>
+				<div class="text-accent-color text-larger fragment">Also usually in some combination!</div>
+
+			</section> -->
+
+			<section data-background-image="images/swFlowTrends.PNG" data-background-size="contain"
+				data-background-opacity=".60">
+				<h2>Surface Water Flow Trends </h2>
+			</section>
+
+			<section data-background-image="images/swFlowTrends.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+				<div class="align-left center">
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-database"></i> Static data on a map
+							server</span></div>
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-map"></i> Supporting map
+							layers</span></div>
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-hand-pointer"></i> Simple selection
+							interface</span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/swFlowTrends_details.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+
+				<div class="align-left center">
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-hand-pointer"></i> Click to identify
+							features and see more detail</span></div>
+
+				</div>
+			</section>
+
+			<section data-background-image="images/swFlowTrends_chart.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+
+				<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+							class="fas fa-chart-area"></i> Dynamic charts that
+						respond to user inputs</span></div>
+			</section>
+
+			<section data-background-image="images/ss.PNG" data-background-size="contain" data-background-opacity=".60">
+				<h2>StreamStats </h2>
+			</section>
+
+			<section data-background-image="images/ss.PNG" data-background-size="contain" data-background-opacity=.90>
+				<div class="align-left center">
+					<div class="bottom-margin-1em "><span class="text-accent-color text-over-image"><i
+								class="fas fa-database"></i> Combination of map
+							services and a custom database + API</span></div>
+
+					<div class="bottom-margin-1em fragment"><span class="text-accent-color text-over-image"><i
+								class="fas fa-cogs"></i> Public API available
+							and documented for use</span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/ss_delineating.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+				<div class="align-left center">
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-chart-network"></i> Complex data flow
+							that calculates basin delineation on the fly</span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/ss_basin_delineated.PNG" data-background-size="contain"
+				data-background-opacity=.90 data-transition="none">
+				<div class="align-left center">
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-chart-network"></i> Complex data flow
+							that calculates basin delineation on the fly</span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/ss.PNG" data-background-size="contain" data-background-opacity=.90
+				data-transition="none">
+				<div class="align-left center">
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-project-diagram"></i> Large ecosystem of services, servers, databases, and
+							related applications</span></div>
+				</div>
+			</section>
+
+
+			<section data-background-image="images/sparrow.PNG" data-background-size="contain"
+				data-background-opacity=".60">
+				<h2>SPARROW </h2>
+				<h3>(SPAtially Referenced Regressions On Watershed attributes)</h3>
+			</section>
+
+			<section data-background-image="images/sparrow_hucDetail.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+				<div class="align-left center">
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-chart-area"></i> Dynamic charts that
+							respond to user inputs</span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/sparrow_hucDetail2.PNG" data-background-size="contain"
+				data-background-opacity=.90 data-transition="none">
+				<div class="align-left center">
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-chart-area"></i> Dynamic charts that
+							respond to user inputs</span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/sparrow_hucDetail3.PNG" data-background-size="contain"
+				data-background-opacity=.90 data-transition="none">
+				<div class="align-left center">
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fal fa-table"></i> Interactive data table </span></div>
+					<div class="bottom-margin-1em fragment"><span class="text-accent-color text-over-image"><i
+								class="fas fa-file-download"></i> Tabular data download </span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/fim.PNG" data-background-size="contain"
+				data-background-opacity=".60">
+				<h2>Flood Inundation Mapper</h2>
+			</section>
+
+			<section data-background-image="images/fim_details.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+				<div class="align-left center">
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fal fa-stream"></i> Multi-sourced data: real-time, historical HAZUS, related
+							reports and services </span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/fim_hydro.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+				<div class="align-left center">
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fad fa-layer-group"></i> Interactive map layers </span></div>
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-print"></i> Printing </span></div>
+				</div>
+			</section>
+
+			<section data-background-image="images/iwaas.PNG" data-background-size="contain"
+				data-background-opacity=".60">
+				<h2>IWAAs Concept Maps </h2>
+			</section>
+
+			<section data-background-image="images/iwaas.PNG" data-background-size="contain"
+				data-background-opacity=.90>
+				<div class="align-left center">
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="far fa-paint-brush"></i> Sophisticated visualization </span></div>
+
+					<div class="bottom-margin-1em"><span class="text-accent-color text-over-image"><i
+								class="fas fa-clock"></i> Real-time data from a daily automated process </span></div>
+				</div>
+			</section>
+
+			<section>
+				<h2>Development of online interactive capabilities</h2>
+				<div class="text-larger">What we didn't cover</div>
+				<ul>
+					<li>Architecture</li>
+					<li>Hosting and server admin</li>
+					<li>Domains</li>
+					<li>Database admin</li>
+				</ul>
+
+			</section>
+
+			<section>
+				<h2><i class="fas fa-head-side-brain"></i> Takeaway</h2>
+
+				<div>All of these elements (and more!) can be combined to achieve the desired result.</div>
+
+			</section>
+
+			<section>
+				<!-- <h2>Development of online interactive capabilities</h2> -->
+				<h2><i class="fas fa-comments"></i> Discussion</h2>
+
+				<div class="bottom-margin-2em text-larger">Thanks!</div>
+
+				<small>
+					<a href="https://www.linkedin.com/in/blakedraper/">Blake Draper</a>, Software
+					Developer<br><a href="https://github.com/usgs-wim">USGS Web Informatics and Mapping (WIM),
+						Upper Midwest Water Science Center</a><br></small>
+				<img height="140" data-src="images/USGSlogo_tag_white_600w.gif" alt="USGS logo"
+					style="background:none;border:none;box-shadow:none;">
+				<br><img height="60" data-src="images/logo_hor_fullres.png" alt="WIM logo"
+					style="margin:10px;background:none;border:none;box-shadow:none;">
+
+			</section>
+
+
+			<!-- <section data-background-image="images/liqwids.PNG" data-background-size="contain"
+				data-background-opacity=".60">
+				<h2>LIQWIDS </h2>
+				<h3>(Long Island Water Quality Integrated Data System)</h3>
+			</section> -->
+
+
+
+
+
+
+
+			<!-- <section>
+				<h2><i class="fas fa-database"></i> Data Sourcing and Storage</h2>
+				<h3>Database Approaches</h3>
+				<ul>
+					<li>External</li>
+					<ul>
+						<li>borrowed</li>
+						<li>data harmonization part of a process</li>
+					</ul>
+					<li>Custom</li>
+					<ul>
+						<li>owned</li>
+						<li>bespoke for the needs of the web application</li>
+						<li>data harmonization</li>
+					</ul>
+				</ul>
+
+			</section> -->
 		</div>
+	</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
 </html>
